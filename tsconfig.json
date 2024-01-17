@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "outDir": "./dist", /* เพื่อระบุว่าไฟล์ ts ที่ถูก compile แล้วจะไปอยู่ใน dist folder */
+    "rootDir": "./src", /* เพื่อระบุว่าให้ compile จาก folder ไหน */
+    "strict": true,      /* enable flag ที่เกี่ยวข้องกับ strict ทั้งหมด เช่น noImplicitAny, alwaysStrict และ strictFunctionTypes เป็นต้น */
+    "esModuleInterop": true
+  },
+  "exclude": ["node_modules"]  /* ไม่ให้ ts compile ไฟล์ใดๆ ใน node_modules */
+}
