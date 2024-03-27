@@ -4,17 +4,12 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import test from './routes/test';
+import { connectMongoDB } from './config/mongoDB';
 
 const app = express()
-
 const port = process.env.PORT || 4000;
-
-
-// declare module 'express-session' {
-//   interface SessionData {
-//       [key: string]: any;
-//   }
-// }
+dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : `.env` });
+connectMongoDB();
 
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
@@ -24,13 +19,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/test',test);
-// app.use('/user', userRoute);
-// app.use('/forget', forgetRoute);
-// app.use('/auth', authRoute);
-// app.use('/omise', omiseRoute);
-// app.use('/emails', emailRoute);
-
-
 
 app.get('/', (req: Request, res: Response) => {
   res.json({
