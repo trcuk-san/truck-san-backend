@@ -1,6 +1,29 @@
-import express from 'express'
+// src/app.ts
+import express, { Express, Request, Response } from 'express'
+import dotenv from 'dotenv';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import test from './routes/test';
+import { connectMongoDB } from './config/mongoDB';
 
-const server = express()
-const PORT = 4000
+const app = express()
+const port = process.env.PORT || 4000;
+dotenv.config({ path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : `.env` });
+connectMongoDB();
 
-server.listen(PORT, () => console.log(`Server is started at port ${PORT}`))
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+app.use(cors());
+
+app.use(express.json());
+
+app.use('/test',test);
+
+app.get('/', (req: Request, res: Response) => {
+  res.json({
+    message: 'Hello Express + TypeScirpt!!',
+  })
+});
+
+app.listen(port, () => console.log(`Application is running on port ${port}`))
