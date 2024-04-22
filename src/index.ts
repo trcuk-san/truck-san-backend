@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import test from './routes/test';
 import { connectMongoDB } from './config/mongoDB';
 import OrderRoutes from './routes/orderRoute';
+import VehicleRoutes from './routes/vehicleRoute';
 
 const app = express()
 const port = process.env.PORT || 4000;
@@ -30,3 +31,5 @@ app.listen(port, () => console.log(`Application is running on port ${port}`))
 
 app.use('/test',test);
 app.use('/order', OrderRoutes);
+app.use('/vehicle', VehicleRoutes);
+// app.use('/customer', CustomerRoutes);

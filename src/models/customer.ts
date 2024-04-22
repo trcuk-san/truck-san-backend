@@ -22,7 +22,7 @@ const customerSchema = new Schema(
             type: String,
             require: true,
         },
-        lastname: {
+        address: {
             type: String,
             require: true,
         },

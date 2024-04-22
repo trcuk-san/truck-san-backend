@@ -40,12 +40,11 @@ const orderSchema = new Schema(
         },
         vehicle: {
             type: String,
-            unique: true,
+            require: true,
         },
         driver: {
             type: String,
             require: true,
-            unique: true,
         },
         pick_up: {
             type: String,
