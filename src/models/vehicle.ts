@@ -1,9 +1,9 @@
 import { Document, model, Schema, SchemaOptions } from 'mongoose';
 
 interface IVehicleDocument extends Document {
-    registration: string;
-    status: string;
-    vehicles_picture: string;
+    vehicleId: string;
+    vehicleStatus: string;
+    remarks: string;
 }
 
 const options: SchemaOptions = {
@@ -18,19 +18,17 @@ const options: SchemaOptions = {
 
 const vehicleSchema = new Schema(
     {
-        registration: {
+        vehicleId: {
             type: String,
             require: true,
         },
-        status: {
+        vehicleStatus: {
             type: String,
             require: true,
         },
-        vehicle_picture: {
+        remarks: {
             type: String,
-            default:
-                'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
-            // require: false,
+            require: false,
         },
     },
     options
