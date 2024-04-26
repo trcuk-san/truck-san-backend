@@ -2,12 +2,13 @@ import { Document, model, Schema, SchemaOptions } from 'mongoose';
 
 interface IUserDocument extends Document {
     firstname: string;
-    lastname: string;
+    // lastname: string;
     username: string;
-    phone: string;
-    hash: string;
-    salt: string;
-    profile_picture: string;
+    // phone: string;
+    // address: string;
+    // hash: string;
+    // salt: string;
+    // profile_picture: string;
 }
 
 const options: SchemaOptions = {
@@ -28,37 +29,37 @@ const userSchema = new Schema(
             type: String,
             require: true,
         },
-        lastname: {
-            type: String,
-            require: true,
-        },
-        phone: {
-            type: String,
-            unique: true,
-        },
+        // lastname: {
+        //     type: String,
+        //     require: true,
+        // },
+        // phone: {
+        //     type: String,
+        //     unique: true,
+        // },
         username: {
             type: String,
             require: true,
             unique: true,
         },
-        password: {
-            type: String,
-            require: true,
-        },
-        hash: {
-            type: String,
-            require: false,
-        },
-        salt: {
-            type: String,
-            require: true,
-        },
-        profile_picture: {
-            type: String,
-            default:
-                'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
-            // require: false,
-        },
+        // password: {
+        //     type: String,
+        //     require: true,
+        // },
+        // hash: {
+        //     type: String,
+        //     require: false,
+        // },
+        // salt: {
+        //     type: String,
+        //     require: true,
+        // },
+        // profile_picture: {
+        //     type: String,
+        //     default:
+        //         'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
+        //     // require: false,
+        // },
     },
     options
 );

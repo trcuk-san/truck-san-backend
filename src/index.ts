@@ -7,6 +7,8 @@ import { connectMongoDB } from './config/mongoDB';
 import OrderRoutes from './routes/orderRoute';
 import VehicleRoutes from './routes/vehicleRoute';
 import CustomerRoutes from './routes/customerRoute';
+import MobileRoutes from './routes/mobileRoute';
+import UserRoutes from './routes/userRoute';
 
 const app = express()
 const port = process.env.PORT || 4000;
@@ -32,3 +34,5 @@ app.listen(port, () => console.log(`Application is running on port ${port}`))
 app.use('/order', OrderRoutes);
 app.use('/vehicle', VehicleRoutes);
 app.use('/customer', CustomerRoutes);
+app.use('/user', UserRoutes);
+app.use('/mobile', MobileRoutes);
