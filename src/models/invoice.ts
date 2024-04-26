@@ -1,9 +1,9 @@
-import { Document, model, Schema, SchemaOptions } from 'mongoose';
+import { Document, model, ObjectId, Schema, SchemaOptions } from 'mongoose';
 
-interface ICustomerDocument extends Document {
-    name: string;
-    address: string;
-    phone: string;
+interface IInvoiceDocument extends Document {
+  invoiceId: string; 
+  customerId: ObjectId;
+  listorderId: [ObjectId];
 } 
 
 const options: SchemaOptions = {
@@ -16,7 +16,7 @@ const options: SchemaOptions = {
     timestamps: true,
 };
 
-const customerSchema = new Schema(
+const invoiceSchema = new Schema(
     {
         name: {
             type: String,
@@ -34,6 +34,6 @@ const customerSchema = new Schema(
     options
 );
 
-const Customer = model<ICustomerDocument>('customers', customerSchema);
+const Invoice = model<IInvoiceDocument>('invoices', invoiceSchema);
 
-export default Customer;
+export default Invoice;

@@ -2,21 +2,27 @@ import { Document, model, Schema, SchemaOptions } from 'mongoose';
 
 interface IOrderDocument extends Document {
     // date: Date;
-    date: String;
-    time: string;
+    datePickUp: String;
+    timePickUp: string;
+    dateDropOff: string;
+    timeDropOff: string;
     vehicle: string;
     driver: string;
     pick_up: string;
     drop_off:[string];
     consumer: string;
+    income: number;
+    oilFee: number;
+    tollwayFee: number;
+    otherFee: number;
+    orderStatus: string;
+    invoiced: boolean;
     remark: string;
 }
 
 const options: SchemaOptions = {
     toJSON: {
         transform(doc, ret) {
-            delete ret.hash;
-            delete ret.salt;
             delete ret.createdAt;
             delete ret.updatedAt;
         },
@@ -26,43 +32,70 @@ const options: SchemaOptions = {
 
 const orderSchema = new Schema(
     {
-      // date: {
-      //       type: Date,
-      //       require: true,
-      //   },
-      date: {
+      datePickUp: {
         type: String,
         require: true,
-    },
-        time: {
-            type: String,
-            require: true,
-        },
-        vehicle: {
-            type: String,
-            unique: true,
-        },
-        driver: {
-            type: String,
-            require: true,
-            unique: true,
-        },
-        pick_up: {
-            type: String,
-            require: true,
-        },
-        drop_off: {
-            type: [String],
-            require: false,
-        },
-        consumer: {
-            type: String,
-            require: true,
-        },
-        remark: {
-          type: String,
-          require: true,
       },
+      timePickUp: {
+        type: String,
+        require: true,
+      },
+      dateDropOff: {
+        type: String,
+        require: true,
+      },
+      timeDropOff: {
+        type: String,
+        require: true,
+      },
+      vehicle: {
+        type: String,
+        require: true,
+      },
+      driver: {
+        type: String,
+        require: true,
+      },
+      pick_up: {
+        type: String,
+        require: true,
+      },
+      drop_off: {
+        type: [String],
+        require: true,
+      },
+      consumer: {
+        type: String,
+        require: true,
+      },
+      income: {
+        type: Number,
+        require: true,
+      },
+      oilFee: {
+        type: Number,
+        require: true,
+      },
+      tollwayFee: {
+        type: Number,
+        require: true,
+      },
+      otherFee: {
+        type: Number,
+        require: true,
+      },
+      remark: {
+        type: String,
+        require: true,
+      },
+      orderStatus: {
+        type: String,
+        require: true,
+      },
+      invoiced: {
+        type: Boolean,
+        require: true,
+      }
     },
     options
 );

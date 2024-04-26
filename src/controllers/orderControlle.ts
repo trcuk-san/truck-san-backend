@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Order from '../models/order';
+
 export const createOrder = async (req: Request, res: Response) => {
     console.log('createOrder work!');
     const body = req.body;
@@ -34,6 +35,16 @@ export const listOrder = async (req: Request, res: Response) => {
     });
 };
 
+export const getOrder = async (req: Request, res: Response) => {
+    console.log('getOneOrder work!');
+
+    const data = await Order.findById(req.body._id);
+    res.status(200).json({
+        message: 'success',
+        data: data,
+    });
+};
+
 export const updateOrder = async (req: Request, res: Response) => {
     console.log('updateOrder work!');
 
@@ -48,7 +59,6 @@ export const updateOrder = async (req: Request, res: Response) => {
             consumer: req.body.consumer,
             remark: req.body.remark,
         })
-
             .then((data) => {
                 console.log(data);
                 res.status(200).json({ data: data });
@@ -59,5 +69,21 @@ export const updateOrder = async (req: Request, res: Response) => {
             });
     } catch (error) {
         console.log('error', error);
+    }
+};
+
+export const deleteOrder = async (req: Request, res: Response) => {
+    console.log("deleteOrder work");
+    console.log(req.body._id);
+    try {
+        const order = await Order.findById(req.body._id);
+        if (!order) {
+            return res.status(404).json({ message: "Order not found" });
+        }
+        await order.deleteOne();
+        res.status(200).json({ message: "Order deleted successfully" });
+    } catch (error) {
+        console.log('error', error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
