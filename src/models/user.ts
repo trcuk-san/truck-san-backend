@@ -1,68 +1,40 @@
-import { Document, model, Schema, SchemaOptions } from 'mongoose';
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
-interface IUserDocument extends Document {
-    firstname: string;
-    lastname: string;
-    username: string;
-    phone: string;
-    hash: string;
-    salt: string;
-    profile_picture: string;
+interface User {
+  email: string;
+  username: string;
+  password: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
-const options: SchemaOptions = {
-    toJSON: {
-        transform(doc, ret) {
-            delete ret.hash;
-            delete ret.salt;
-            delete ret.createdAt;
-            delete ret.updatedAt;
-        },
-    },
-    timestamps: true,
-};
+const userSchema = new mongoose.Schema<User>({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+}, { timestamps: true });
 
-const userSchema = new Schema(
-    {
-        firstname: {
-            type: String,
-            require: true,
-        },
-        lastname: {
-            type: String,
-            require: true,
-        },
-        phone: {
-            type: String,
-            unique: true,
-        },
-        username: {
-            type: String,
-            require: true,
-            unique: true,
-        },
-        password: {
-            type: String,
-            require: true,
-        },
-        hash: {
-            type: String,
-            require: false,
-        },
-        salt: {
-            type: String,
-            require: true,
-        },
-        profile_picture: {
-            type: String,
-            default:
-                'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
-            // require: false,
-        },
-    },
-    options
-);
+userSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
 
-const User = model<IUserDocument>('users', userSchema);
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(this.password, salt);
+  this.password = hash;
+  next();
+});
 
-export default User;
+export default mongoose.model<User>('User', userSchema);
