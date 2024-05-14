@@ -2,7 +2,7 @@ import { Document, model, ObjectId, Schema, SchemaOptions } from 'mongoose';
 
 interface IInvoiceDocument extends Document {
   invoiceId: string; 
-  customerId: ObjectId;
+  customer: string;
   listorderId: [ObjectId];
 } 
 

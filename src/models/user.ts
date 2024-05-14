@@ -3,7 +3,7 @@ import { Document, model, Schema, SchemaOptions } from 'mongoose';
 interface IUserDocument extends Document {
     firstname: string;
     lastname: string;
-    username: string;
+    email: string;
     phone: string;
     hash: string;
     salt: string;
@@ -36,7 +36,7 @@ const userSchema = new Schema(
             type: String,
             unique: true,
         },
-        username: {
+        email: {
             type: String,
             require: true,
             unique: true,
@@ -57,7 +57,6 @@ const userSchema = new Schema(
             type: String,
             default:
                 'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
-            // require: false,
         },
     },
     options

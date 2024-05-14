@@ -1,4 +1,4 @@
-import { Document, model, Schema, SchemaOptions } from 'mongoose';
+import { Document, model, ObjectId, Schema, SchemaOptions } from 'mongoose';
 
 interface IOrderDocument extends Document {
     // date: Date;
@@ -6,8 +6,8 @@ interface IOrderDocument extends Document {
     timePickUp: string;
     dateDropOff: string;
     timeDropOff: string;
-    vehicle: string;
-    driver: string;
+    vehicleID: ObjectId;
+    driver: ObjectId;
     pick_up: string;
     drop_off:[string];
     consumer: string;
@@ -49,11 +49,13 @@ const orderSchema = new Schema(
         require: true,
       },
       vehicle: {
-        type: String,
-        require: true,
+        type: Schema.Types.ObjectId,
+        ref: 'vehicle',
+        // require: true,
       },
       driver: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: 'user',
         require: true,
       },
       pick_up: {
@@ -75,14 +77,17 @@ const orderSchema = new Schema(
       oilFee: {
         type: Number,
         require: true,
+        default: 0,
       },
       tollwayFee: {
         type: Number,
         require: true,
+        default: 0,
       },
       otherFee: {
         type: Number,
         require: true,
+        default: 0,
       },
       remark: {
         type: String,
@@ -91,10 +96,11 @@ const orderSchema = new Schema(
       orderStatus: {
         type: String,
         require: true,
+        default: 'Start',
       },
       invoiced: {
         type: Boolean,
-        require: true,
+        default: false,
       }
     },
     options

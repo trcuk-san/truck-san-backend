@@ -5,7 +5,7 @@ import {
   updateOrder,
   deleteOrder,
   getOrder,
-} from '../controllers/orderControlle';
+} from '../controllers/orderController';
 // import { authentication } from '../middleware/verifyHeader';
 // import { toiletValidation, validate } from '../middleware/vaildator';
 
