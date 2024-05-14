@@ -6,7 +6,9 @@ import { connectMongoDB } from './config/mongoDB';
 import OrderRoutes from './routes/orderRoute';
 import VehicleRoutes from './routes/vehicleRoute';
 import CustomerRoutes from './routes/customerRoute';
+import MobileRoutes from './routes/mobileRoute';
 import UserRoutes from './routes/userRoute';
+import AuthRoutes from './routes/authRoute';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -21,15 +23,17 @@ app.use(cors());
 // Use express.json() for parsing JSON data in requests
 app.use(express.json());
 
+app.listen(port, () => console.log(`Application is running on port ${port}`))
+
 app.get('/', (req: Request, res: Response) => {
   res.json({
     message: 'Hello Express + TypeScirpt!!',
   });
 });
 
+app.use('/auth', AuthRoutes);
 app.use('/order', OrderRoutes);
 app.use('/vehicle', VehicleRoutes);
 app.use('/customer', CustomerRoutes);
-app.use('/user', UserRoutes); // Add the user route
-
-app.listen(port, () => console.log(`Application is running on port ${port}`));
+// app.use('/user', UserRoutes);
+app.use('/mobile', MobileRoutes);
