@@ -8,6 +8,7 @@ import VehicleRoutes from './routes/vehicleRoute';
 import CustomerRoutes from './routes/customerRoute';
 import MobileRoutes from './routes/mobileRoute';
 import UserRoutes from './routes/userRoute';
+import TestRoutes from './routes/testRoute';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -22,12 +23,15 @@ app.use(cors());
 // Use express.json() for parsing JSON data in requests
 app.use(express.json());
 
+app.listen(port, () => console.log(`Application is running on port ${port}`))
+
 app.get('/', (req: Request, res: Response) => {
   res.json({
     message: 'Hello Express + TypeScirpt!!',
   });
 });
 
+app.use('/test', TestRoutes);
 app.use('/order', OrderRoutes);
 app.use('/vehicle', VehicleRoutes);
 app.use('/customer', CustomerRoutes);
