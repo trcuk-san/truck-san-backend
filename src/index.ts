@@ -2,13 +2,14 @@ import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser'; // Consider using a more modern middleware like express.json()
-import { connectMongoDB } from './config/mongoDB';
+
 import OrderRoutes from './routes/orderRoute';
 import VehicleRoutes from './routes/vehicleRoute';
 import CustomerRoutes from './routes/customerRoute';
 import MobileRoutes from './routes/mobileRoute';
-import UserRoutes from './routes/userRoute';
 import AuthRoutes from './routes/authRoute';
+import  connectMongoDB  from './config/mongoDB';
+
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -35,5 +36,4 @@ app.use('/auth', AuthRoutes);
 app.use('/order', OrderRoutes);
 app.use('/vehicle', VehicleRoutes);
 app.use('/customer', CustomerRoutes);
-// app.use('/user', UserRoutes);
 app.use('/mobile', MobileRoutes);

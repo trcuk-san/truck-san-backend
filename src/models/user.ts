@@ -26,11 +26,11 @@ const userSchema = new Schema(
     {
         firstname: {
             type: String,
-            require: true,
+            required: true,
         },
         lastname: {
             type: String,
-            require: true,
+            required: true,
         },
         phone: {
             type: String,
@@ -38,25 +38,20 @@ const userSchema = new Schema(
         },
         email: {
             type: String,
-            require: true,
+            required: true,
             unique: true,
-        },
-        password: {
-            type: String,
-            require: true,
         },
         hash: {
             type: String,
-            require: false,
+            required: true,
         },
         salt: {
             type: String,
-            require: true,
+            required: true,
         },
         profile_picture: {
             type: String,
-            default:
-                'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
+            default: 'http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png',
         },
     },
     options

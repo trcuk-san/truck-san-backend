@@ -45,7 +45,7 @@ export const register = async (req: Request, res: Response) => {
       res.status(201).json({ message: 'created', token: token });
   } catch (error) {
       console.log(error);
-      res.status(500);
+      res.status(500).json({ message: 'Server error' });
   }
 };
 
@@ -59,9 +59,9 @@ export const login = async (req: Request, res: Response) => {
           const passwordValid = await validatePassword(body.password, user.hash, user.salt);
 
           if (passwordValid) {
-              // const tokenData = { uid: user._id };
-              // const token = jwt.sign(tokenData, process.env.JWT_SECRET!, { expiresIn: '1d' });
-              res.status(200).json({ message: 'success'});
+              const tokenData = { uid: user._id };
+              const token = jwt.sign(tokenData, process.env.JWT_SECRET!, { expiresIn: '1d' });
+              res.status(200).json({ message: 'success', token: token });
           } else {
               res.status(400).json({
                   errors: [
@@ -84,6 +84,6 @@ export const login = async (req: Request, res: Response) => {
       }
   } catch (error) {
       console.log(error);
-      res.status(500);
+      res.status(500).json({ message: 'Server error' });
   }
 };
