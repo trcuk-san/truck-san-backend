@@ -4,17 +4,21 @@ import Order from '../models/order';
 
 export const createOrder = async (req: Request, res: Response) => {
     console.log('createOrder work!');
+
     const body = req.body;
     try {
         await Order.create({
-          date: req.body.date,
-          time: req.body.time,
-          vehicle: req.body.vehicle,
-          driver: req.body.driver,
-          pick_up: req.body.pick_up,
-          drop_off: req.body.drop_off,
-          consumer: req.body.consumer,
-          remark: req.body.remark,
+            datePickUp: req.body.datePickUp,
+            timePickUp: req.body.timePickUp,
+            dateDropOff: req.body.dateDropOff,
+            timeDropOff: req.body.timeDropOff,
+            vehicle: req.body.vehicle,
+            driver: req.body.driver,
+            pick_up: req.body.pick_up,
+            drop_off: req.body.drop_off,
+            consumer: req.body.consumer,
+            income: req.body.income,
+            remark: req.body.remark,
         });
         res.status(201).json({
             message: 'createdOrder',
@@ -50,13 +54,19 @@ export const updateOrder = async (req: Request, res: Response) => {
 
     try {
         await Order.findByIdAndUpdate(req.body._id, {
-            date: req.body.date,
-            time: req.body.time,
+            datePickUp: req.body.datePickUp,
+            timePickUp: req.body.timePickUp,
+            dateDropOff: req.body.dateDropOff,
+            timeDropOff: req.body.timeDropOff,
             vehicle: req.body.vehicle,
             driver: req.body.driver,
             pick_up: req.body.pick_up,
             drop_off: req.body.drop_off,
             consumer: req.body.consumer,
+            income: req.body.income,
+            oilFee: req.body.oilFee,
+            tollwayFee: req.body.tollwayFee,
+            otherFee: req.body.otherFee,
             remark: req.body.remark,
         })
             .then((data) => {
@@ -74,6 +84,7 @@ export const updateOrder = async (req: Request, res: Response) => {
 
 export const deleteOrder = async (req: Request, res: Response) => {
     console.log("deleteOrder work");
+    
     console.log(req.body._id);
     try {
         const order = await Order.findById(req.body._id);

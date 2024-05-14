@@ -60,5 +60,5 @@ const loginUser = async (req: Request, res: Response) => {
 
 export default {
   registerUser,
-  loginUser,
+  // loginUser,
 };
