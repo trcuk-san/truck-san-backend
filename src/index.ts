@@ -8,7 +8,7 @@ import VehicleRoutes from './routes/vehicleRoute';
 import CustomerRoutes from './routes/customerRoute';
 import MobileRoutes from './routes/mobileRoute';
 import UserRoutes from './routes/userRoute';
-import TestRoutes from './routes/testRoute';
+import AuthRoutes from './routes/authRoute';
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -31,9 +31,9 @@ app.get('/', (req: Request, res: Response) => {
   });
 });
 
-app.use('/test', TestRoutes);
+app.use('/auth', AuthRoutes);
 app.use('/order', OrderRoutes);
 app.use('/vehicle', VehicleRoutes);
 app.use('/customer', CustomerRoutes);
-app.use('/user', UserRoutes);
+// app.use('/user', UserRoutes);
 app.use('/mobile', MobileRoutes);
