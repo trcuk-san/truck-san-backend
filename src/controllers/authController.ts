@@ -16,7 +16,7 @@ const validatePassword = async (enterPassword: string, hash: string, salt: strin
 };
 
 export const register = async (req: Request, res: Response) => {
-  console.log('createUser work!');
+  console.log('register work!');
   const body = req.body;
 
   try {
@@ -50,7 +50,7 @@ export const register = async (req: Request, res: Response) => {
 };
 
 export const login = async (req: Request, res: Response) => {
-  console.log('signin con');
+  console.log('login work');
   const body = req.body;
   try {
       const user = await User.findOne({ email: body.email });
@@ -87,3 +87,8 @@ export const login = async (req: Request, res: Response) => {
       res.status(500);
   }
 };
+
+
+export const test = (req: Request, res: Response) => {
+  console.log("can use axios");
+}
