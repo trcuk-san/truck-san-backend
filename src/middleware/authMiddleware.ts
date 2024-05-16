@@ -1,20 +1,20 @@
-// src/middleware/authMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import { CustomRequest } from '../types/express';
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction): Response | undefined => {
-  const token = req.header('Authorization')?.replace('Bearer ', '');
-
-  if (!token) {
-    return res.status(401).json({ message: 'No token, authorization denied' });
+export const authMiddleware = (req: CustomRequest, res: Response, next: NextFunction): Response | void => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).json({ message: 'No token provided' });
   }
 
+  const token = authHeader.split(' ')[1];
+
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
-    (req as any).user = decoded; // กำหนดค่าของ user ใน req object
+    const user = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload & { uid: string };
+    req.user = user;
     next();
   } catch (err) {
-    console.error('Something wrong with auth middleware');
-    return res.status(401).json({ message: 'Token is not valid' });
+    return res.status(401).json({ message: 'Invalid token' });
   }
 };
