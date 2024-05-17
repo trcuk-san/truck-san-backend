@@ -1,4 +1,3 @@
-// src/index.ts
 import express, { Express, Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -19,14 +18,14 @@ connectMongoDB();
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
-app.use(cors());
+app.use(cors()); 
 app.use(express.json());
 
 app.listen(port, () => console.log(`Application is running on port ${port}`));
 
 app.get('/', (req: Request, res: Response) => {
   res.json({
-    message: 'Hello Express + TypeScirpt!!',
+    message: 'Hello Express + TypeScript!!',
   });
 });
 
