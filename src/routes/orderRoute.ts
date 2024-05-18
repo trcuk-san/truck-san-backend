@@ -1,22 +1,14 @@
 import express from 'express';
-import { 
-  createOrder,
-  listOrder,
-  updateOrder,
-  deleteOrder,
-  getOrder,
-} from '../controllers/orderController';
-// import { authentication } from '../middleware/verifyHeader';
-// import { toiletValidation, validate } from '../middleware/vaildator';
+import { register, login, getProfile, updateProfile, listUsers, deleteUser } from '../controllers/authController';
+import authMiddleware from '../middleware/authMiddleware';
 
 const router = express.Router();
-router.post('/createOrder', createOrder);
-router.get('/listOrder', listOrder);
-router.get('/getOrder', getOrder);
-router.put('/updateOrder', updateOrder);
-router.delete('/deleteOrder', deleteOrder);
-// router.use(authentication);
 
-// router.post('/createToilet', toiletValidation(), validate, createToilet);
+router.post('/register', register);
+router.post('/login', login);
+router.get('/profile/:userId', authMiddleware, getProfile); // ใช้ middleware ที่นี่
+router.put('/profile/:userId', authMiddleware, updateProfile); // เพิ่มการอัปเดตโปรไฟล์
+router.get('/users', authMiddleware, listUsers); // Add this line to list all users
+router.delete('/users/:userId', authMiddleware, deleteUser); // Add this line to delete a user
 
 export default router;

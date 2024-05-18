@@ -134,10 +134,44 @@ export const updateProfile = async (req: Request, res: Response) => {
 };
 
 export const listUsers = async (req: Request, res: Response) => {
-    console.log('listUsers work!');
+  console.log('listUsers work!');
   try {
     const users = await User.find().select('-hash -salt');
     res.status(200).json({ message: 'success', data: users });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  console.log('deleteUser work!');
+  try {
+    const user = await User.findByIdAndDelete(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// Add this function to update user
+export const updateUser = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  const { firstname, lastname, phone, email } = req.body;
+  try {
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is required' });
+    }
+    const user = await User.findByIdAndUpdate(userId, { firstname, lastname, phone, email }, { new: true }).select('-hash -salt');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(user);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Server error' });
