@@ -57,7 +57,6 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
-
 export const login = async (req: Request, res: Response) => {
   console.log('login work');
   const { email, password } = req.body;
@@ -105,7 +104,7 @@ export const getProfile = async (req: Request, res: Response) => {
       return res.status(400).json({ message: 'User ID is required' });
     }
     const user = await User.findById(userId).select('-hash -salt');
-    console.log('Fetched user from DB:', user); // Log ข้อมูลผู้ใช้ที่ถูกค้นหา
+    // console.log('Fetched user from DB:', user); // Log ข้อมูลผู้ใช้ที่ถูกค้นหา
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
@@ -128,6 +127,17 @@ export const updateProfile = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'User not found' });
     }
     res.status(200).json(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const listUsers = async (req: Request, res: Response) => {
+    console.log('listUsers work!');
+  try {
+    const users = await User.find().select('-hash -salt');
+    res.status(200).json({ message: 'success', data: users });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Server error' });
