@@ -18,7 +18,7 @@ export const createVehicle = async (req: Request, res: Response) => {
 };
 
 export const listVehicle = async (req: Request, res: Response) => {
-    console.log('getAllOrder work!');
+    console.log('listVehicle work!');
 
     const data = await Vehicle.find();
     res.status(200).json({
