@@ -8,10 +8,10 @@ import {
 } from '../controllers/invoiceController';
 
 const router = express.Router();
-router.post('/createCustomer', createInvoice);
-router.get('/listCustomer', listInvoice);
-router.get('/getCustomer', getInvoice);
-router.put('/updateCustomer', updateInvoice);
-router.delete('/deleteCustomer', deleteInvoice);
+router.post('/createInvoice', createInvoice);
+router.get('/listInvoice', listInvoice);
+router.get('/getInvoice', getInvoice);
+router.put('/updateInvoice', updateInvoice);
+router.delete('/deleteInvoice', deleteInvoice);
 
 export default router;

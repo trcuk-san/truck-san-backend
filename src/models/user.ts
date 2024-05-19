@@ -13,15 +13,43 @@ export interface IUser extends Document {
 }
 
 const UserSchema: Schema = new Schema({
-  firstname: { type: String, required: true },
-  lastname: { type: String, required: true },
-  phone: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  hash: { type: String, required: true },
-  salt: { type: String, required: true },
-  profile_picture: { type: String, default: "http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png" },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
+  firstname: { 
+    type: String, 
+    required: true 
+  },
+  lastname: { 
+    type: String, 
+    required: true 
+  },
+  phone: { 
+    type: String, 
+    required: true 
+  },
+  email: { 
+    type: String, 
+    required: true, 
+    unique: true 
+  },
+  hash: { 
+    type: String, 
+    required: true 
+  },
+  salt: { 
+    type: String, 
+    required: true 
+  },
+  profile_picture: { 
+    type: String, 
+    default: "http://res.cloudinary.com/di71vwint/image/upload/v1674291349/images/nsopymczagslnr78yyv5.png" 
+  },
+  createdAt: { 
+    type: Date, 
+    default: Date.now 
+  },
+  updatedAt: { 
+    type: Date, 
+    default: Date.now 
+  },
 });
 
 export default mongoose.model<IUser>('User', UserSchema);

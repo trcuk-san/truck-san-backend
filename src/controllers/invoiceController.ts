@@ -1,15 +1,19 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Invoice from '../models/invoice';
+import Order from '../models/order';
 
 export const createInvoice = async (req: Request, res: Response) => {
     console.log('createInvoice work!');
     const body = req.body;
     try {
+        const orders = await Order.find({ '_id': { $in: req.body.listorderId } });
+        const totalIncome = orders.reduce((total, order) => total + order.income, 0);
         await Invoice.create({
-          // name: req.body.name,
-          // address: req.body.address,
-          // phone: req.body.phone,
+          customer: req.body.customer,
+          address: req.body.address,
+          listorderId: req.body.listorderId,
+          amount: totalIncome,
         });
         res.status(201).json({
             message: 'createdInvoice',
