@@ -98,3 +98,43 @@ export const deleteOrder = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 };
+
+export const listOrderUser = async (req: Request, res: Response) => {
+    console.log('listOrderUser work!');
+    const query = req.query;
+    console.log('getMytoilet: ', query.driver);
+    const regexQuery = query.driver;
+    console.log(regexQuery);
+    try {
+        if (query.driver !== '') {
+            const regexQuery = query.driver;
+            if (regexQuery) {
+                console.log(regexQuery);
+                const dataMyOrder: any = await Order.aggregate([
+                    { $match: { driver: new mongoose.Types.ObjectId(regexQuery.toString()) } },
+                    { $match: { orderStatus: "Start" } },
+                    { $sort: { createdAt: -1 } },
+                ]);
+                if (dataMyOrder.length > 0) {
+                    res.status(200).json({
+                        message: 'success',
+                        MyOrder: dataMyOrder,
+                    });
+                    console.log(dataMyOrder);
+                } else {
+                    console.log('No data');
+                    res.status(400).json({ message: 'No results found' });
+                }
+            } else {
+                console.log('regexQuery is undefined');
+                res.status(400).json({ message: 'Invalid query' });
+            }
+        } else {
+            console.log('No search');
+            res.status(400).json({ message: 'Please enter place name' });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(500);
+    }
+};
