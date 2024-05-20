@@ -5,15 +5,15 @@ import {
   updateOrder,
   deleteOrder,
   getOrder,
-  getDistanceMatrix // เพิ่มบรรทัดนี้
+  getDistanceMatrix
 } from '../controllers/orderController';
 
 const router = express.Router();
 router.post('/createOrder', createOrder);
 router.get('/listOrder', listOrder);
-router.get('/getOrder', getOrder);
+router.get('/getOrder/:_id', getOrder);  
 router.put('/updateOrder', updateOrder);
 router.delete('/deleteOrder/:_id', deleteOrder);
-router.get('/distanceMatrix', getDistanceMatrix); // เพิ่มบรรทัดนี้
+router.get('/distanceMatrix', getDistanceMatrix);
 
 export default router;

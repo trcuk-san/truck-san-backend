@@ -49,9 +49,10 @@ export const listOrder = async (req: Request, res: Response) => {
 
 export const getOrder = async (req: Request, res: Response) => {
     console.log('getOneOrder work!');
+    const { _id } = req.params;  // Ensure you're getting the _id from params, not body
 
     try {
-        const data = await Order.findById(req.body._id);
+        const data = await Order.findById(_id);  // Use _id from params
         res.status(200).json({
             message: 'success',
             data: data,
@@ -61,6 +62,7 @@ export const getOrder = async (req: Request, res: Response) => {
         res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
     }
 };
+
 
 export const updateOrder = async (req: Request, res: Response) => {
     console.log('updateOrder work!');
