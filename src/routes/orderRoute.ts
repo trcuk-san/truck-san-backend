@@ -5,15 +5,19 @@ import {
   updateOrder,
   deleteOrder,
   getOrder,
-  getDistanceMatrix
+  getDistanceMatrix,
+  listOrderByDriver
 } from '../controllers/orderController';
+import authMiddleware from '../middleware/authMiddleware';
 
 const router = express.Router();
+
 router.post('/createOrder', createOrder);
 router.get('/listOrder', listOrder);
 router.get('/getOrder/:_id', getOrder);  
 router.put('/updateOrder', updateOrder);
 router.delete('/deleteOrder/:_id', deleteOrder);
 router.get('/distanceMatrix', getDistanceMatrix);
+router.get('/listOrderByDriver/:driverId', authMiddleware, listOrderByDriver);
 
 export default router;

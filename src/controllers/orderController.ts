@@ -137,4 +137,25 @@ export const getDistanceMatrix = async (req: Request, res: Response) => {
       res.status(500).json({ error: errorMsg });
     }
   };
+
+  export const listOrderByDriver = async (req: Request, res: Response) => {
+    console.log('listOrderByDriver work!');
+    const { driverId } = req.params;
+
+    try {
+        const orders = await Order.find({ driver: driverId });
+
+        if (!orders || orders.length === 0) {
+            return res.status(404).json({ message: 'No orders found for this driver' });
+        }
+
+        res.status(200).json({ data: orders });
+    } catch (error) {
+        console.log('Error fetching orders:', error);
+        res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+    }
+};
+  
+  
+
   
