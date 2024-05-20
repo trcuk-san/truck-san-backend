@@ -36,4 +36,3 @@ app.use('/vehicle', VehicleRoutes);
 app.use('/customer', CustomerRoutes);
 app.use('/invoice', InvoiceRoute);
 app.use('/mobile', MobileRoutes);
-

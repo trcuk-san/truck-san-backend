@@ -1,14 +1,19 @@
 import express from 'express';
-import { register, login, getProfile, updateProfile, listUsers, deleteUser } from '../controllers/authController';
-import authMiddleware from '../middleware/authMiddleware';
+import { 
+  createOrder,
+  listOrder,
+  updateOrder,
+  deleteOrder,
+  getOrder,
+  getDistanceMatrix // เพิ่มบรรทัดนี้
+} from '../controllers/orderController';
 
 const router = express.Router();
-
-router.post('/register', register);
-router.post('/login', login);
-router.get('/profile/:userId', authMiddleware, getProfile); // ใช้ middleware ที่นี่
-router.put('/profile/:userId', authMiddleware, updateProfile); // เพิ่มการอัปเดตโปรไฟล์
-router.get('/users', authMiddleware, listUsers); // Add this line to list all users
-router.delete('/users/:userId', authMiddleware, deleteUser); // Add this line to delete a user
+router.post('/createOrder', createOrder);
+router.get('/listOrder', listOrder);
+router.get('/getOrder', getOrder);
+router.put('/updateOrder', updateOrder);
+router.delete('/deleteOrder/:_id', deleteOrder);
+router.get('/distanceMatrix', getDistanceMatrix); // เพิ่มบรรทัดนี้
 
 export default router;
