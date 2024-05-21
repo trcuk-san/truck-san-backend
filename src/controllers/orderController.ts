@@ -99,10 +99,10 @@ export const deleteOrder = async (req: Request, res: Response) => {
     }
 };
 
-export const listOrderUser = async (req: Request, res: Response) => {
-    console.log('listOrderUser work!');
+export const getMyTask = async (req: Request, res: Response) => {
+    console.log('getMyTask work!');
     const query = req.query;
-    console.log('getMytoilet: ', query.driver);
+    console.log('getMyTask: ', query.driver);
     const regexQuery = query.driver;
     console.log(regexQuery);
     try {
@@ -111,8 +111,7 @@ export const listOrderUser = async (req: Request, res: Response) => {
             if (regexQuery) {
                 console.log(regexQuery);
                 const dataMyOrder: any = await Order.aggregate([
-                    { $match: { driver: new mongoose.Types.ObjectId(regexQuery.toString()) } },
-                    { $match: { orderStatus: "Start" } },
+                    { $match: { driver: new mongoose.Types.ObjectId(regexQuery.toString()), orderStatus: { $ne: "Finished" } } },
                     { $sort: { createdAt: -1 } },
                 ]);
                 if (dataMyOrder.length > 0) {
