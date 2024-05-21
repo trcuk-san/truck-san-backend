@@ -40,4 +40,3 @@ app.use('/invoice', InvoiceRoute);
 app.use('/receipt', ReceiptRoute);
 app.use('/voucher', VoucherRoute);
 app.use('/mobile', MobileRoutes);
-

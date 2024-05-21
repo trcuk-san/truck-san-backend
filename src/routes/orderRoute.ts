@@ -5,21 +5,19 @@ import {
   updateOrder,
   deleteOrder,
   getOrder,
-  getMyTask,
+  getDistanceMatrix,
+  listOrderByDriver
 } from '../controllers/orderController';
-// import { authentication } from '../middleware/verifyHeader';
-// import { toiletValidation, validate } from '../middleware/vaildator';
+import authMiddleware from '../middleware/authMiddleware';
 
 const router = express.Router();
+
 router.post('/createOrder', createOrder);
 router.get('/listOrder', listOrder);
-router.get('/getOrder', getOrder);
+router.get('/getOrder/:_id', getOrder);  
 router.put('/updateOrder', updateOrder);
-router.delete('/deleteOrder', deleteOrder);
-router.get('/getMyTask', getMyTask);
-
-// router.use(authentication);
-
-// router.post('/createToilet', toiletValidation(), validate, createToilet);
+router.delete('/deleteOrder/:_id', deleteOrder);
+router.get('/distanceMatrix', getDistanceMatrix);
+router.get('/listOrderByDriver/:driverId', authMiddleware, listOrderByDriver);
 
 export default router;
