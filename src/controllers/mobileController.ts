@@ -3,31 +3,42 @@ import mongoose from 'mongoose';
 import User from '../models/user';
 import Order from '../models/order';
 
-
-export const MyOrder = async (req: Request, res: Response) => {
-  console.log("MyOrder");
-  const query = req.query;
-  console.log('getMytoilet: ', query.driver);
-};
-
-
-// อาจจะใช้ routes getOrder
-export const MyOrderDetail = async (req: Request, res: Response) => {
-  console.log("MyOrderDetail");
-
-};
-
-
-export const UpdateMyOrderStatus = async (req: Request, res: Response) => {
+export const UpdateOrderStatus = async (req: Request, res: Response) => {
   console.log("UpdateMyOrderStatus");
+  try {
+    await Order.findByIdAndUpdate(req.body._id, {
+      orderStatus: String,
+    })
+        .then((data) => {
+            console.log(data);
+            res.status(200).json({ data: data });
+        })
+        .catch((err) => {
+            console.log('error', err);
+            res.status(500).json({ message: 'server error' });
+        });
+  } catch (error) {
+  console.log('error', error);
+}
 };
 
-export const MyProfile = async (req: Request, res: Response) => {
+export const UpdateOrderFee = async (req: Request, res: Response) => {
   console.log("UpdateMyOrderStatus");
-  // const userData = await User.findById(req.body._id);
-  // const order
-  //   res.status(200).json({
-  //       message: 'success',
-  //       data: data,
-  //   });
+  try {
+    await Order.findByIdAndUpdate(req.body._id, {
+      oilFee: req.body.oilFee,
+      tollwayFee: req.body.tollwayFee,
+      otherFee: req.body.otherFee,
+    })
+        .then((data) => {
+            console.log(data);
+            res.status(200).json({ data: data });
+        })
+        .catch((err) => {
+            console.log('error', err);
+            res.status(500).json({ message: 'server error' });
+        });
+} catch (error) {
+    console.log('error', error);
+}
 };
