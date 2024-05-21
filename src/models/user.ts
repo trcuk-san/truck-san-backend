@@ -10,6 +10,7 @@ export interface IUser extends Document {
   profile_picture: string;
   createdAt: Date;
   updatedAt: Date;
+  type: string;
 }
 
 const UserSchema: Schema = new Schema({
@@ -49,6 +50,10 @@ const UserSchema: Schema = new Schema({
   updatedAt: { 
     type: Date, 
     default: Date.now 
+  },
+  type: { 
+    type: String, 
+    default:"User"
   },
 });
 

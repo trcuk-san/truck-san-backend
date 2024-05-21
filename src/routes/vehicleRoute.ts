@@ -14,7 +14,7 @@ router.post('/createVehicle', createVehicle);
 router.get('/listVehicle', listVehicle);
 router.get('/getVehicle', getVehicle);
 router.put('/updateVehicle', updateVehicle);
-router.delete('/deleteVehicle', deleteVehicle);
+router.delete('/deleteVehicle/:_id', deleteVehicle);
 router.get('/getVehicleOrders/:id', getVehicleOrders); // New route
 
 export default router;
