@@ -51,7 +51,7 @@ export const updateVehicle = async (req: Request, res: Response) => {
 export const deleteVehicle = async (req: Request, res: Response) => {
   console.log("deleteVehicle work");
   try {
-    const vehicle = await Vehicle.findById(req.body._id);
+    const vehicle = await Vehicle.findById(req.params._id);
     if (!vehicle) {
       return res.status(404).json({ message: "Vehicle not found" });
     }
@@ -62,6 +62,7 @@ export const deleteVehicle = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
 
 // New function to get vehicle details along with orders
 export const getVehicleOrders = async (req: Request, res: Response) => {

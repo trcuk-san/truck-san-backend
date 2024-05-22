@@ -1,4 +1,5 @@
 import { Document, model, ObjectId, Schema, SchemaOptions } from 'mongoose';
+import { getNextSequence } from '../utils/counter';
 
 interface IOrderDocument extends Document {
     // date: Date;
@@ -18,6 +19,7 @@ interface IOrderDocument extends Document {
     orderStatus: string;
     invoiced: boolean;
     remark: string;
+    orderId:string;
 }
 
 const options: SchemaOptions = {
@@ -101,10 +103,22 @@ const orderSchema = new Schema(
       invoiced: {
         type: Boolean,
         default: false,
-      }
+      },
+      orderId: {  
+        type: String,
+        require: true,
+      },
     },
     options
 );
+
+orderSchema.pre<IOrderDocument>('save', async function (next) {
+  if (this.isNew) {
+    const nextSeq = await getNextSequence('invoiceId');
+    this.orderId = nextSeq.toString().padStart(7, '0'); // Padding with zeros to make it 7 digits
+  }
+  next();
+});
 
 const Order = model<IOrderDocument>('orders', orderSchema);
 
