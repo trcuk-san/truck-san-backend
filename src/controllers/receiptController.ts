@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
+import Receipt from '../models/receipt';;
 import Invoice from '../models/invoice';
-import Order from '../models/order';
 
-export const createInvoice = async (req: Request, res: Response) => {
+export const createReceipt = async (req: Request, res: Response) => {
     console.log('createInvoice work!');
     const body = req.body;
     try {
-        const orders = await Order.find({ '_id': { $in: req.body.listorderId } });
-        const totalIncome = orders.reduce((total, order) => total + order.income, 0);
-        await Invoice.create({
+        const invoices = await Invoice.find({ '_id': { $in: req.body.listinvoice } });
+        const totalIncome = invoices.reduce((total, invoice) => total + invoice.amount, 0);
+        await Receipt.create({
           customer: req.body.customer,
           address: req.body.address,
           listorderId: req.body.listorderId,
@@ -24,31 +24,31 @@ export const createInvoice = async (req: Request, res: Response) => {
     }
 };
 
-export const listInvoice = async (req: Request, res: Response) => {
+export const listReceipt = async (req: Request, res: Response) => {
     console.log('getAllInvoice work!');
 
-    const data = await Invoice.find();
+    const data = await Receipt.find();
     res.status(200).json({
         message: 'success',
         data: data,
     });
 };
 
-export const getInvoice = async (req: Request, res: Response) => {
+export const getReceipt = async (req: Request, res: Response) => {
     console.log('getOneInvoice work!');
 
-    const data = await Invoice.findById(req.body._id);
+    const data = await Receipt.findById(req.body._id);
     res.status(200).json({
         message: 'success',
         data: data,
     });
 };
 
-export const updateInvoice = async (req: Request, res: Response) => {
+export const updateReceipt = async (req: Request, res: Response) => {
     console.log('updateInvoice work!');
 
     try {
-        await Invoice.findByIdAndUpdate(req.body._id, {
+        await Receipt.findByIdAndUpdate(req.body._id, {
           // name: req.body.name,
           // address: req.body.address,
           // phone: req.body.phone,
@@ -66,11 +66,11 @@ export const updateInvoice = async (req: Request, res: Response) => {
     }
 };
 
-export const deleteInvoice = async (req: Request, res: Response) => {
+export const deleteReceipt = async (req: Request, res: Response) => {
     console.log("deleteInvoice work");
     console.log(req.body._id);
     try {
-        const invoice = await Invoice.findById(req.body._id);
+        const invoice = await Receipt.findById(req.body._id);
         if (!invoice) {
             return res.status(404).json({ message: "Invoice not found" });
         }

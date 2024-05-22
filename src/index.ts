@@ -5,9 +5,11 @@ import bodyParser from 'body-parser';
 
 import OrderRoutes from './routes/orderRoute';
 import VehicleRoutes from './routes/vehicleRoute';
-import CustomerRoutes from './routes/customerRoute';
 import MobileRoutes from './routes/mobileRoute';
 import AuthRoutes from './routes/authRoute';
+import InvoiceRoute from './routes/invoiceRoute';
+import ReceiptRoute from './routes/receiptRoute';
+import VoucherRoute from './routes/voucherRoute';
 import connectMongoDB from './config/mongoDB';
 
 const app = express();
@@ -32,5 +34,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/auth', AuthRoutes);
 app.use('/order', OrderRoutes);
 app.use('/vehicle', VehicleRoutes);
-app.use('/customer', CustomerRoutes);
+app.use('/invoice', InvoiceRoute);
+app.use('/receipt', ReceiptRoute);
+app.use('/voucher', VoucherRoute);
 app.use('/mobile', MobileRoutes);

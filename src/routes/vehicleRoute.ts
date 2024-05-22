@@ -1,3 +1,4 @@
+// routes/vehicleRoutes.ts
 import express from 'express';
 import { 
   createVehicle,
@@ -5,6 +6,7 @@ import {
   getVehicle,
   updateVehicle,
   deleteVehicle,
+  getVehicleOrders
 } from '../controllers/vehicleController';
 
 const router = express.Router();
@@ -12,6 +14,7 @@ router.post('/createVehicle', createVehicle);
 router.get('/listVehicle', listVehicle);
 router.get('/getVehicle', getVehicle);
 router.put('/updateVehicle', updateVehicle);
-router.delete('/deleteVehicle', deleteVehicle);
+router.delete('/deleteVehicle/:_id', deleteVehicle);
+router.get('/getVehicleOrders/:id', getVehicleOrders); // New route
 
 export default router;
