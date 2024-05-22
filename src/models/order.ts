@@ -96,7 +96,7 @@ const orderSchema = new Schema(
       orderStatus: {
         type: String,
         require: true,
-        default: 'Start',
+        default: 'Pending',
       },
       invoiced: {
         type: Boolean,
