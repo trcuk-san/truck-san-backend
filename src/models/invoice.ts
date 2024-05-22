@@ -1,7 +1,6 @@
 import { Document, model, ObjectId, Schema, SchemaOptions } from 'mongoose';
 import { getNextSequence } from '../utils/counter'; // Import the function
 
-
 interface IInvoiceDocument extends Document {
   invoiceId: string; 
   customer: string;
@@ -58,8 +57,8 @@ invoiceSchema.pre<IInvoiceDocument>('save', async function (next) {
       this.invoiceId = nextSeq.toString().padStart(7, '0'); // Padding with zeros to make it 7 digits
     }
     next();
-  });
-  
-  const Invoice = model<IInvoiceDocument>('invoices', invoiceSchema);
-  
-  export default Invoice;
+});
+
+const Invoice = model<IInvoiceDocument>('invoices', invoiceSchema);
+
+export default Invoice;

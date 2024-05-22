@@ -33,10 +33,11 @@ export const createOrder = async (req: Request, res: Response) => {
 };
 
 export const listOrder = async (req: Request, res: Response) => {
-    console.log('getAllOrder work!');
+    console.log('listOrder work!');
 
     try {
         const data = await Order.find();
+        console.log("Fetched Orders: ", data); // Add this log
         res.status(200).json({
             message: 'success',
             data: data,

@@ -1,7 +1,6 @@
 import { Document, model, ObjectId, Schema, SchemaOptions } from 'mongoose';
 import { getNextSequence } from '../utils/counter'; // Import the function
 
-
 interface IReceiptDocument extends Document {
   receiptId: string; 
   customer: string;
@@ -22,7 +21,7 @@ const options: SchemaOptions = {
 
 const receiptSchema = new Schema(
     {
-        invoiceId: {
+        receiptId: {
             type: String,
             require: true,
         },
@@ -34,31 +33,27 @@ const receiptSchema = new Schema(
             type: String,
             require: true,
         },
-        listorderId: {
+        listinvoice: {
             type: [Schema.Types.ObjectId],
-            ref: 'Order',
+            ref: 'Invoice',
             require: true,
         },
         amount: {
             type: Number,
             require: true,
-        },
-        invoicestatus: {
-            type: Boolean,
-            default: false,
-        },
+        }
     },
     options
 );
 
 receiptSchema.pre<IReceiptDocument>('save', async function (next) {
     if (this.isNew) {
-      const nextSeq = await getNextSequence('invoiceId');
+      const nextSeq = await getNextSequence('receiptId');
       this.receiptId = nextSeq.toString().padStart(7, '0'); // Padding with zeros to make it 7 digits
     }
     next();
   });
   
-  const Receipt = model<IReceiptDocument>('receipt', receiptSchema);
+  const Receipt = model<IReceiptDocument>('Receipt', receiptSchema);
   
   export default Receipt;

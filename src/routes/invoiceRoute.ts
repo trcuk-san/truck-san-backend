@@ -8,10 +8,11 @@ import {
 } from '../controllers/invoiceController';
 
 const router = express.Router();
+
 router.post('/createInvoice', createInvoice);
 router.get('/listInvoice', listInvoice);
-router.get('/getInvoice', getInvoice);
 router.put('/updateInvoice', updateInvoice);
-router.delete('/deleteInvoice', deleteInvoice);
+router.delete('/deleteInvoice/:id', deleteInvoice); // Updated to use params
+router.get('/getInvoice/:id', getInvoice); // Updated to use params
 
 export default router;
