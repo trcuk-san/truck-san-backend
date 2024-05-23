@@ -1,16 +1,20 @@
 import express from 'express';
 import { 
   createReceipt, 
-  listReceipt, 
+  listReceipts, 
+  listReceiptsByYearMonth,
   getReceipt, 
   updateReceipt, 
   deleteReceipt,
-  getInvoice
+  getInvoice,
 } from '../controllers/receiptController';
 
+
 const router = express.Router();
+
 router.post('/createReceipt', createReceipt);
-router.get('/listReceipt', listReceipt);
+router.get('/listReceipts', listReceipts);
+router.get('/listReceiptsByYearMonth', listReceiptsByYearMonth); // New endpoint
 router.get('/getReceipt/:id', getReceipt);
 router.put('/updateReceipt/:id', updateReceipt);
 router.delete('/deleteReceipt/:id', deleteReceipt); 
