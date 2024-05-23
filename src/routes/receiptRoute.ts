@@ -12,7 +12,7 @@ const router = express.Router();
 router.post('/createReceipt', createReceipt);
 router.get('/listReceipt', listReceipt);
 router.get('/getReceipt/:id', getReceipt);
-router.put('/updateReceipt', updateReceipt);
+router.put('/updateReceipt/:id', updateReceipt);
 router.delete('/deleteReceipt/:id', deleteReceipt); 
 router.get('/getInvoice/:id', getInvoice);
 

@@ -72,10 +72,11 @@ export const getReceipt = async (req: Request, res: Response) => {
 
 export const updateReceipt = async (req: Request, res: Response) => {
     console.log('updateReceipt work!');
+    const { id } = req.params; // Use 'id' instead of '_id'
+    const { customer, address } = req.body; // Only updating customer and address
+
     try {
-        const data = await Receipt.findByIdAndUpdate(req.body._id, {
-            // Update fields here
-        });
+        const data = await Receipt.findByIdAndUpdate(id, { customer, address }, { new: true });
         if (!data) {
             return res.status(404).json({ message: "Receipt not found" });
         }
