@@ -59,26 +59,20 @@ export const getInvoice = async (req: Request, res: Response) => {
 };
 
 export const updateInvoice = async (req: Request, res: Response) => {
-    console.log('updateInvoice work!');
+    const { id } = req.params; // Use 'id' instead of '_id'
+    const updateData = req.body;
+  
     try {
-        const data = await Invoice.findByIdAndUpdate(req.body._id, {
-            customer: req.body.customer,
-            address: req.body.address,
-            listorderId: req.body.listorderId,
-            amount: req.body.amount,
-            invoicestatus: req.body.invoicestatus
-        }, { new: true });
-        
-        if (!data) {
-            return res.status(404).json({ message: 'Invoice not found' });
-        }
-
-        res.status(200).json({ data: data });
+      const updatedInvoice = await Invoice.findByIdAndUpdate(id, updateData, { new: true });
+      if (!updatedInvoice) {
+        return res.status(404).json({ message: 'Invoice not found' });
+      }
+      res.status(200).json(updatedInvoice);
     } catch (error) {
-        console.log('error', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        res.status(500).json({ error: errorMessage });
     }
-};
+  };
 
 export const deleteInvoice = async (req: Request, res: Response) => {
     console.log("deleteInvoice work");

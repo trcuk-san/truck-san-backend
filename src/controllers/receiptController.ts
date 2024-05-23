@@ -93,22 +93,23 @@ export const updateReceipt = async (req: Request, res: Response) => {
 };
 
 export const deleteReceipt = async (req: Request, res: Response) => {
-    console.log("deleteReceipt work");
+    console.log("deleteReceipt work!");
     try {
-        const receipt = await Receipt.findById(req.body._id);
-        if (!receipt) {
-            return res.status(404).json({ message: "Receipt not found" });
-        }
-        await receipt.deleteOne();
-        res.status(200).json({ message: "Receipt deleted successfully" });
+      const { id } = req.params;
+      const receipt = await Receipt.findById(id);
+      if (!receipt) {
+        return res.status(404).json({ message: "Receipt not found" });
+      }
+      await receipt.deleteOne();
+      res.status(200).json({ message: "Receipt deleted successfully" });
     } catch (error) {
-        console.error("Error deleting receipt:", (error as Error).message);
-        res.status(500).json({
-            message: "Error deleting receipt",
-            error: (error as Error).message,
-        });
+      console.error("Error deleting receipt:", (error as Error).message);
+      res.status(500).json({
+        message: "Error deleting receipt",
+        error: (error as Error).message,
+      });
     }
-};
+  };
 
 export const getInvoice = async (req: Request, res: Response) => {
     try {

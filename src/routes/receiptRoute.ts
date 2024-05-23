@@ -13,7 +13,7 @@ router.post('/createReceipt', createReceipt);
 router.get('/listReceipt', listReceipt);
 router.get('/getReceipt/:id', getReceipt);
 router.put('/updateReceipt', updateReceipt);
-router.delete('/deleteOrder/:_id', deleteReceipt);
+router.delete('/deleteReceipt/:id', deleteReceipt); 
 router.get('/getInvoice/:id', getInvoice);
 
 export default router;
