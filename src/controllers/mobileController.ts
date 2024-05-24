@@ -62,6 +62,94 @@ export const MyTask = async (req: Request, res: Response) => {
   }
 };
 
+export const MyFinishTask = async (req: Request, res: Response) => {
+  console.log('MyFinishTask work!');
+  const query = req.query;
+  console.log('MyFinishTask: ', query.driver);
+  const regexQuery = query.driver;
+  console.log(regexQuery);
+
+  // คำนวณวันที่เริ่มต้นและสิ้นสุดของเดือนปัจจุบัน
+  const now = new Date();
+  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+  const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59).toISOString();
+  console.log(startOfMonth, endOfMonth);
+
+  try {
+    if (query.driver !== '') {
+      const regexQuery = query.driver;
+      if (regexQuery) {
+        console.log(regexQuery);
+        const dataMyOrder: any = await Order.aggregate([
+          {
+            $match: {
+              driver: new mongoose.Types.ObjectId(regexQuery.toString()),
+              orderStatus: "Finished",
+              datePickUp: { $gte: startOfMonth, $lte: endOfMonth }
+            }
+          },
+          { $sort: { datePickUp: -1 } },
+          {
+            $lookup: {
+              from: 'vehicles',
+              localField: 'vehicle',
+              foreignField: '_id',
+              as: 'vehicleData'
+            }
+          },
+          {
+            $unwind: {
+              path: '$vehicleData',
+              preserveNullAndEmptyArrays: true
+            }
+          },
+          {
+            $addFields: {
+              incomePercentage: { $multiply: ["$income", 0.1] }
+            }
+          },
+          {
+            $group: {
+              _id: null,
+              totalIncomePercentage: { $sum: "$incomePercentage" },
+              MyOrder: { $push: "$$ROOT" }
+            }
+          },
+          {
+            $project: {
+              _id: 0,
+              totalIncomePercentage: 1,
+              MyOrder: 1
+            }
+          }
+        ]);
+        
+        if (dataMyOrder.length > 0 && dataMyOrder[0].MyOrder.length > 0) {
+          res.status(200).json({
+            message: 'success',
+            MyOrder: dataMyOrder[0].MyOrder,
+            salary: dataMyOrder[0].totalIncomePercentage
+          });
+          console.log(dataMyOrder[0].MyOrder);
+        } else {
+          console.log('No data');
+          res.status(400).json({ message: 'No results found' });
+        }
+      } else {
+        console.log('regexQuery is undefined');
+        res.status(400).json({ message: 'Invalid query' });
+      }
+    } else {
+      console.log('No search');
+      res.status(400).json({ message: 'Please enter driver' });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+
 const statusOrder = [
     'Pending', // ยังไม่เริ่ม
     'Picked Up', // รับของจากต้นทางแล้ว
