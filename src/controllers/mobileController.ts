@@ -10,35 +10,55 @@ export const MyTask = async (req: Request, res: Response) => {
   const regexQuery = query.driver;
   console.log(regexQuery);
   try {
-      if (query.driver !== '') {
-          const regexQuery = query.driver;
-          if (regexQuery) {
-              console.log(regexQuery);
-              const dataMyOrder: any = await Order.aggregate([
-                  { $match: { driver: new mongoose.Types.ObjectId(regexQuery.toString()), orderStatus: { $ne: "Finished" } } },
-                  { $sort: { createdAt: -1 } },
-              ]);
-              if (dataMyOrder.length > 0) {
-                  res.status(200).json({
-                      message: 'success',
-                      MyOrder: dataMyOrder,
-                  });
-                  console.log(dataMyOrder);
-              } else {
-                  console.log('No data');
-                  res.status(400).json({ message: 'No results found' });
-              }
-          } else {
-              console.log('regexQuery is undefined');
-              res.status(400).json({ message: 'Invalid query' });
-          }
+    if (query.driver !== '') {
+      const regexQuery = query.driver;
+      if (regexQuery) {
+        console.log(regexQuery);
+        const dataMyOrder: any = await Order.aggregate([
+          { $match: { driver: new mongoose.Types.ObjectId(regexQuery.toString()), orderStatus: { $ne: "Finished" } } },
+          { $sort: { createdAt: -1 } },
+          { $lookup: { from: 'vehicles', localField: 'vehicle', foreignField: '_id', as: 'vehicleData' } }, // Populate vehicle field
+          { $unwind: { path: '$vehicleData', preserveNullAndEmptyArrays: true } }, // Unwind the populated vehicleData array
+          { $project: { 
+              _id: 1, 
+              datePickUp: 1,
+              timePickUp: 1,
+              dateDropOff: 1,
+              timeDropOff: 1,
+              vehicleID: '$vehicleData.vehicleId', // Rename the vehicle field to vehicleID
+              driver: 1,
+              pick_up: 1,
+              drop_off: 1,
+              consumer: 1,
+              income: 1,
+              oilFee: 1,
+              tollwayFee: 1,
+              otherFee: 1,
+              remark: 1,
+              orderStatus: 1,
+          } },
+        ]);
+        if (dataMyOrder.length > 0) {
+          res.status(200).json({
+            message: 'success',
+            MyOrder: dataMyOrder,
+          });
+          console.log(dataMyOrder);
+        } else {
+          console.log('No data');
+          res.status(400).json({ message: 'No results found' });
+        }
       } else {
-          console.log('No search');
-          res.status(400).json({ message: 'Please enter place name' });
+        console.log('regexQuery is undefined');
+        res.status(400).json({ message: 'Invalid query' });
       }
+    } else {
+      console.log('No search');
+      res.status(400).json({ message: 'Please enter diver' });
+    }
   } catch (err) {
-      console.log(err);
-      res.status(500);
+    console.log(err);
+    res.status(500);
   }
 };
 
@@ -46,7 +66,8 @@ const statusOrder = [
     'Pending', // ยังไม่เริ่ม
     'Picked Up', // รับของจากต้นทางแล้ว
     'In Transit', // กำลังจัดส่ง
-    'Delivered' // จัดส่งเสร็จแล้ว
+    'Delivered', // จัดส่งเสร็จแล้ว
+    'Finished'
 ];
 export const UpdateOrderStatus = async (req: Request, res: Response) => {
     console.log("UpdateMyOrderStatus");
@@ -109,4 +130,3 @@ export const UpdateOrderFee = async (req: Request, res: Response) => {
     console.log('error', error);
 }
 };
-
