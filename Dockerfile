@@ -14,4 +14,4 @@ COPY .env .
 
 EXPOSE 4000
 
-CMD node ./dist/app.js
+CMD node ./dist/index.js
