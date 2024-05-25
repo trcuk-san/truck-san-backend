@@ -89,7 +89,7 @@ export const login = async (req: Request, res: Response) => {
     const tokenData = { uid: user._id };
     const token = jwt.sign(tokenData, process.env.JWT_SECRET!, { expiresIn: '1d' });
     console.log('Generated token:', token); // เพิ่ม log เพื่อตรวจสอบ token
-    res.status(200).json({ message: 'Login successful', token });
+    res.status(200).json({ message: 'Login successful', token});
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Server error' });
@@ -113,6 +113,16 @@ export const getProfile = async (req: Request, res: Response) => {
     console.log(error);
     res.status(500).json({ message: 'Server error' });
   }
+};
+
+export const getProfile2 = async (req: Request, res: Response) => {
+  const uid = req.session.uid;
+  console.log(uid);
+  const user = await User.findById(uid);
+  res.status(200).json({
+      message: 'success',
+      data: user,
+  });
 };
 
 export const updateProfile = async (req: Request, res: Response) => {

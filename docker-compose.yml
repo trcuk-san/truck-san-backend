@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  # Application
+  api:
+    image: thanakritssw/trucksan:latest
+    container_name: trucksan
+    ports:
+      - 4000:4000
+    expose:
+      - 4000
+    restart: always
+
+    
