@@ -5,6 +5,14 @@ import Order from '../models/order';
 
 const GOOGLE_MAPS_API_KEY = 'AIzaSyD01Tc1PUR7gyHVmP46JA6JjBerk2-kAPM'; 
 
+const getMonthNumber = (monthName: string) => {
+    const monthNames = [
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    return monthNames.indexOf(monthName) + 1;
+};
+
 export const createOrder = async (req: Request, res: Response) => {
     console.log('createOrder work!');
 
@@ -33,10 +41,11 @@ export const createOrder = async (req: Request, res: Response) => {
 };
 
 export const listOrder = async (req: Request, res: Response) => {
-    console.log('getAllOrder work!');
+    console.log('listOrder work!');
 
     try {
         const data = await Order.find();
+        console.log("Fetched Orders: ", data); // Add this log
         res.status(200).json({
             message: 'success',
             data: data,
@@ -154,3 +163,30 @@ export const listOrderByDriver = async (req: Request, res: Response) => {
         res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
     }
 };
+
+export const listFinishedOrders = async (req: Request, res: Response) => {
+    console.log('listFinishedOrders work!');
+    try {
+      const year = parseInt(req.query.year as string);
+      const month = getMonthNumber(req.query.month as string) - 1; // Correct month parsing
+  
+      const startDate = new Date(year, month, 1);
+      const endDate = new Date(year, month + 1, 0);
+  
+      const orders = await Order.find({
+        orderStatus: 'Finished',
+        createdAt: { $gte: startDate, $lte: endDate }
+      });
+  
+      res.status(200).json({
+        message: 'success',
+        data: orders,
+      });
+    } catch (error) {
+      console.error("Error fetching finished orders:", (error as Error).message);
+      res.status(500).json({
+        message: 'Error fetching finished orders',
+        error: (error as Error).message,
+      });
+    }
+  };

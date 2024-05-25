@@ -6,7 +6,8 @@ import {
   deleteOrder,
   getOrder,
   getDistanceMatrix,
-  listOrderByDriver
+  listOrderByDriver,
+  listFinishedOrders
 } from '../controllers/orderController';
 import authMiddleware from '../middleware/authMiddleware';
 
@@ -19,5 +20,6 @@ router.put('/updateOrder/:_id', updateOrder); // Updated to include :_id
 router.delete('/deleteOrder/:_id', deleteOrder);
 router.get('/distanceMatrix', getDistanceMatrix);
 router.get('/listOrderByDriver/:driverId', authMiddleware, listOrderByDriver);
+router.get('/listFinishedOrders', listFinishedOrders);
 
 export default router;
