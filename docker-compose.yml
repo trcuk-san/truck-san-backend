@@ -10,7 +10,7 @@ services:
     expose:
       - 4000
     restart: always
-networks:
-  default:
-    name: bridge
+# networks:
+#   default:
+#     name: bridge
     
