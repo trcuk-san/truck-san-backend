@@ -155,7 +155,6 @@ const statusOrder = [
     'Picked Up', // รับของจากต้นทางแล้ว
     'In Transit', // กำลังจัดส่ง
     'Delivered', // จัดส่งเสร็จแล้ว
-    'Finished'
 ];
 export const UpdateOrderStatus = async (req: Request, res: Response) => {
     console.log("UpdateMyOrderStatus");
